@@ -29,11 +29,11 @@ it('square root 25 = 5', () => {
     expect(result.expression).toBe("5");
 });
 
-it('divide by 0, 5/0 = Infinity', () => {
+it('divide by 0, 5/0 = Not a number', () => {
     const state = {expression: "5/0"};
     const result = calculate(state);
 
-    expect(result.expression).toBe("Infinity");
+    expect(result.expression).toBe("Not a number");
 });
 
 it('prevent entry of multiple decimal points in operands', () => {
@@ -67,4 +67,16 @@ it('integrate processOperands, processOperations, and calculate: 12.5+5*9-1^6 = 
     const result = calculate(state);
 
     expect(result.expression).toBe("56.5");
+});
+
+it('divide by zero then square root a number: 9/0 = Not a number, then 9 square root = 3', () => {
+    const initialState = {expression: "0", lastOperand: "0", lastEntryAnOperation: false,};
+    let state = processOperands("9", initialState);
+    state = processOperations("/", state);
+    state = processOperands("0", state);
+    state = calculate(state);
+    state = processOperands("9", state);
+    const result = squareRoot(state)
+
+    expect(result.expression).toBe("3");
 });

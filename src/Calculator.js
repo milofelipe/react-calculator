@@ -83,12 +83,21 @@ export function calculate(state) {
 
     let expression = state.expression;
     expression = expression.replace(/\^/g, "**");   // replace all ^ with ** so Javascript can evaluate exponent operation
-    const result = eval(expression);
-    return {
-        expression: result + "",
-        lastOperand: result + "",
-        lastEntryAnOperation: false,
-    };
+    const result = eval(expression) + "";
+
+    if (result === "Infinity") {
+        return {
+            expression: "Not a number",
+            lastOperand: "0",
+            lastEntryAnOperation: false,
+        };
+    } else {
+        return {
+            expression: result,
+            lastOperand: result,
+            lastEntryAnOperation: false,
+        };
+    }
 }
 
 export function processOperands(i, state) {
@@ -96,7 +105,7 @@ export function processOperands(i, state) {
         return state;
     }
 
-    let expression = (state.expression === "0" || state.expression === "Infinity" ? "" : state.expression) + i;
+    let expression = (isInvalidExpression(state.expression) ? "" : state.expression) + i;
     let lastOperand = state.lastOperand + i;
     return {
         expression: expression,
@@ -106,7 +115,7 @@ export function processOperands(i, state) {
 }
 
 export function processOperations(i, state) {
-    if (state.expression === "0" || state.expression === "Infinity" || state.lastEntryAnOperation) {
+    if (isInvalidExpression(state.expression) || state.lastEntryAnOperation) {
         return state;
     }
 
@@ -119,10 +128,18 @@ export function processOperations(i, state) {
 }
 
 export function squareRoot(state) {
+    if (isInvalidExpression(state.expression)) {
+        return state;
+    }
+
     const result = Math.sqrt(state.lastOperand) + "";
     return {
         expression: result,
         lastOperand: result,
         lastEntryAnOperation: false,
     };
+}
+
+function isInvalidExpression(expression) {
+    return expression === "0" || expression === "Not a number";
 }
