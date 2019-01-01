@@ -15,6 +15,13 @@ it('MDAS rule, calculating 2+5*10/5-2 = 10', () => {
     expect(result.expression).toBe("10");
 });
 
+it('PEMDAS rule, calculating 2+5*10/5^2 = 4', () => {
+    const state = {expression: "2+5*10/5^2"};
+    const result = calculate(state);
+
+    expect(result.expression).toBe("4");
+});
+
 it('square by N expression, calculating 8*5^4 = 5000', () => {
     const state = {expression: "8*5^4"};
     const result = calculate(state);
