@@ -122,7 +122,7 @@ export function processOperations(i, state) {
     let expression = state.expression + i;
     return {
         expression: expression,
-        lastOperand: "0",
+        lastOperand: state.lastOperand,
         lastEntryAnOperation: true,
     };
 }

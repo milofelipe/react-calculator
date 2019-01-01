@@ -29,6 +29,17 @@ it('square root 25 = 5', () => {
     expect(result.expression).toBe("5");
 });
 
+it('square root 5*9+ = 3, square root will only apply to last operand', () => {
+    const initialState = {expression: "0", lastOperand: "0", lastEntryAnOperation: false,};
+    let state = processOperands("5", initialState);
+    state = processOperations("*", state);
+    state = processOperands("9", initialState);
+    state = processOperations("+", state)
+    const result = squareRoot(state);
+
+    expect(result.expression).toBe("3");
+});
+
 it('divide by 0, 5/0 = Not a number', () => {
     const state = {expression: "5/0"};
     const result = calculate(state);
