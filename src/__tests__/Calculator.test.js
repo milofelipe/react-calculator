@@ -40,7 +40,7 @@ it('square root 5*9+ = 3, square root will only apply to last operand', () => {
     const initialState = {expression: "0", lastOperand: "0", lastEntryAnOperation: false,};
     let state = processOperands("5", initialState);
     state = processOperations("*", state);
-    state = processOperands("9", initialState);
+    state = processOperands("9", state);
     state = processOperations("+", state)
     const result = squareRoot(state);
 
