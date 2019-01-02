@@ -106,7 +106,7 @@ export function processOperands(i, state) {
     }
 
     let expression = (isInvalidExpression(state.expression) ? "" : state.expression) + i;
-    let lastOperand = state.lastOperand + i;
+    let lastOperand = state.lastEntryAnOperation ? i : state.lastOperand + i;
     return {
         expression: expression,
         lastOperand: lastOperand,

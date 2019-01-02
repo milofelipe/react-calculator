@@ -22,6 +22,20 @@ it('PEMDAS rule, calculating 2+5*10/5^2 = 4', () => {
     expect(result.expression).toBe("4");
 });
 
+it('add two decimals, calculating 3.5+3.5 = 7', () => {
+    const initialState = {expression: "0", lastOperand: "0", lastEntryAnOperation: false,};
+    let state = processOperands("3", initialState);
+    state = processOperands(".", state);
+    state = processOperands("5", state);
+    state = processOperations("+", state);
+    state = processOperands("3", state);
+    state = processOperands(".", state);
+    state = processOperands("5", state);
+    const result = calculate(state);
+
+    expect(result.expression).toBe("7");
+});
+
 it('square by N expression, calculating 8*5^4 = 5000', () => {
     const state = {expression: "8*5^4"};
     const result = calculate(state);
